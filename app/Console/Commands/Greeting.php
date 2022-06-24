@@ -27,14 +27,14 @@ class Greeting extends Command
     {
         $name = $this->argument('name');
 
-        $workflow = $this->workflowClient->newWorkflowStub(
+        $workflow = $this->getWorkflowClient()->newWorkflowStub(
             GreetingWorkflowInterface::class,
             WorkflowOptions::new()
                 ->withWorkflowId('subscription:' . $name)
                 ->withWorkflowIdReusePolicy(IdReusePolicy::POLICY_ALLOW_DUPLICATE)
         );
 
-        $run = $this->workflowClient->start($workflow, $name);
+        $run = $this->getWorkflowClient()->start($workflow, $name);
 
         $this->info($run->getExecution()->getID());
 

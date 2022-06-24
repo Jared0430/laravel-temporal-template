@@ -11,10 +11,12 @@ abstract class Command extends BaseCommand
 {
     protected WorkflowClientInterface $workflowClient;
 
-    public function __construct()
+    protected function getWorkflowClient(): WorkflowClientInterface
     {
-        parent::__construct();
+        if (!$this->workflowClient) {
+            $this->workflowClient = WorkflowClient::create(ServiceClient::create('localhost:7233'));
+        }
 
-        $this->workflowClient = WorkflowClient::create(ServiceClient::create('localhost:7233'));
+        return $this->workflowClient;
     }
 }
